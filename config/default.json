@@ -1,0 +1,23 @@
+{
+  "app": {
+    "port": 12000,
+    "dev": false
+  },
+  "database": {
+    "uri": "mongodb://localhost:27217/bj-core",
+    "options": {
+      "autoIndex": true,
+      "bufferCommands": true,
+      "useNewUrlParser": true,
+      "autoCreate": true
+    }
+  },
+  "wxConfig": {
+    "appId":"wx0b5f8a7bb0149b4e",
+    "appSecret":"0a265fafa2ec7f93ff40ae385ede4fa0"
+  },
+  "jwt": {
+    "secret": "secret",
+    "expiresIn": "60000s"
+  }
+}
