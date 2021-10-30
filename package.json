@@ -41,7 +41,7 @@
     "passport-custom": "^1.1.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "passport-wechat": "^2.0.4",
+    "passport-wechat": "git+https://github.com/lijianyu1985/passport-wechat.git",
     "pg": "^8.7.1",
     "pg-pool": "^3.4.1",
     "reflect-metadata": "^0.1.13",
