@@ -2,13 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { ResourceDocument } from 'src/schemas/resource';
 import { find, forEach, trim } from 'lodash';
+import { BaseService } from 'src/infrastructure/base-parts/base.service';
 
 @Injectable()
-export class ResourceService {
+export class ResourceService extends BaseService<ResourceDocument> {
   constructor(
     @Inject('RESOURCE_MODEL')
-    private readonly resourceModel: Model<ResourceDocument>,
-  ) {}
+    private readonly resourceModel: Model<ResourceDocument>,) {
+    super(resourceModel);
+  }
 
   async generateApiResources(pathes: [string]) {
     //All schemas
@@ -53,7 +55,7 @@ export class ResourceService {
   }
 
   findAllPathes(adminRoutes: []) {
-    let pathes = [];
+    const pathes = [];
     forEach(adminRoutes, (r) => {
       if (r.path && (r.component || r.redirect)) {
         pathes.push(trim(r.path.toLowerCase(), '/'));

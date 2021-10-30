@@ -21,16 +21,20 @@ import { AccountIdsDto } from './dtos/account-ids.dto';
 import { AccountIdDto } from './dtos/account-id.dto';
 import { AccountResetPasswordDto } from './dtos/account-reset-password.dto';
 import { AccountProfileChangeDto } from './dtos/account-profile-change.dto';
+import { AccountDocument } from 'src/schemas/account';
+import { BaseController } from 'src/infrastructure/base-parts/base.controller';
 
 @Controller('account')
 @ApiTags('用户')
 @ApiBearerAuth()
-export class AccountController {
-  constructor(private accountService: AccountService) {}
+export class AccountController extends BaseController<AccountDocument> {
+  constructor(private accountService: AccountService) {
+    super(accountService);
+  }
 
   @Get('profile')
   async getProfile(@Request() req) {
-    const account = await this.accountService.get(req.user.userId);
+    const account = await this.accountService.get({id: req.user.userId} as any);
     return {
       id: account.id,
       username: account.username,
@@ -38,22 +42,6 @@ export class AccountController {
       name: account.name,
       phone: account.phone,
     };
-  }
-
-  @Get('page')
-  @ApiQuery({
-    name: 'query',
-    description: '分页查询',
-    type: AccountPageQueryDto,
-  })
-  async page(@Query() query) {
-    return await this.accountService.page(query);
-  }
-
-  @Get('get')
-  @ApiQuery({ name: 'id', description: 'ID', type: String })
-  async get(@Query('id') id) {
-    return await this.accountService.get(id);
   }
 
   @Post('resetPassword')
@@ -85,24 +73,6 @@ export class AccountController {
       passwordModel.oldPassword,
       passwordModel.newPassword,
     );
-  }
-
-  @Post('archive')
-  @ApiBody({
-    description: 'ID列表',
-    type: AccountIdsDto,
-  })
-  async archive(@Body() model) {
-    return await this.accountService.archive(model.ids);
-  }
-
-  @Post('unarchive')
-  @ApiBody({
-    description: 'ID列表',
-    type: AccountIdsDto,
-  })
-  async unarchive(@Body() model) {
-    return await this.accountService.unarchive(model.ids);
   }
 
   @Post('change')

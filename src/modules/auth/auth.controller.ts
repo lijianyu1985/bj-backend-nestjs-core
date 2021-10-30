@@ -1,8 +1,16 @@
-import { Controller, Request, Get, Post, Req, UseGuards, Body } from '@nestjs/common';
+import {
+  Controller,
+  Request,
+  Get,
+  Post,
+  Req,
+  UseGuards,
+  Body,
+} from '@nestjs/common';
 import { Public } from './strategies/auth-public.decorator';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './strategies/local-auth.guard';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { LoginDto } from './dtos/login.dto';
 import { RegistryDto } from './dtos/registry.dto';
 
@@ -23,5 +31,14 @@ export class AuthController {
   @ApiBody({ description: '注册参数', type: RegistryDto })
   async registry(@Request() req) {
     return this.authService.registry(req.body);
+  }
+
+  @Get('verifyToken')
+  @ApiBearerAuth()
+  async verifyToken(@Request() req) {
+    if (req.user.userId) {
+      return true;
+    }
+    return false;
   }
 }

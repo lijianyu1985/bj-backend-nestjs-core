@@ -4,10 +4,35 @@ import { GenerateResourceDto } from './dto/generate-resource.dto';
 import { ResourceService } from './resource.service';
 import {keys, trim} from 'lodash'
 import { GenerateAdminResourceDto } from './dto/generate-admin-resource.dto';
+import { BaseController } from 'src/infrastructure/base-parts/base.controller';
+import { ResourceDocument } from 'src/schemas/resource';
+import { CreateResourceDto } from './dto/create-resource.dto';
+import { UpdateResourceDto } from './dto/update-resource.dto';
 
 @Controller('resource')
-export class ResourceController {
-  constructor(private readonly resourceService: ResourceService) {}
+export class ResourceController extends BaseController<ResourceDocument> {
+  constructor(private resourceService: ResourceService) {
+    super(resourceService);
+  }
+
+  @Post('create')
+  @ApiBody({
+    description: '创建',
+    type: CreateResourceDto,
+  })
+  async create(@Body() model: CreateResourceDto) {
+    return await this.resourceService.insert(model);
+  }
+
+  @Post('update')
+  @ApiBody({
+    description: '更新',
+    type: UpdateResourceDto,
+  })
+  async update(@Body() model: UpdateResourceDto) {
+    const { id, ...data } = model;
+    return await this.resourceService.updateById(id, data);
+  }
 
   @Post('generateApi')
   @ApiBody({

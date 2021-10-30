@@ -3,62 +3,14 @@ import { Model, Types } from 'mongoose';
 import { isJSON, hashPassword } from 'src/utils/utils';
 import { AccountDocument } from 'src/schemas/account';
 import { BusinessError } from 'src/infrastructure/response/business.error';
+import { BaseService } from 'src/infrastructure/base-parts/base.service';
 
 @Injectable({})
-export class AccountService {
+export class AccountService  extends BaseService<AccountDocument> {
   constructor(
     @Inject('ACCOUNT_MODEL')
-    private readonly accountModel: Model<AccountDocument>,
-  ) {}
-
-  async page({
-    page = 1,
-    size = 10,
-    query = null,
-    sort = null,
-    projection = null,
-    population = null,
-  }) {
-    const safePage = Number(page);
-    const safeSize = Number(size);
-    const queryObject = isJSON(query) ? JSON.parse(query) : {};
-    const sortObject = isJSON(sort) ? JSON.parse(sort) : {};
-    queryObject.archived = { $in: [false, null, undefined] };
-    const total = await this.accountModel.count(queryObject);
-    const listQuery = this.accountModel
-      .find(queryObject, projection)
-      .sort(sortObject)
-      .limit(safeSize)
-      .skip((safePage - 1) * safeSize);
-    if (population) {
-      const populationItems = population.split(',');
-      await Promise.all(
-        (populationItems || []).map(async (populationItem) => {
-          const populationItemSplits = populationItem.split(':');
-          if (populationItemSplits.length === 2) {
-            listQuery.populate(
-              populationItemSplits[0],
-              populationItemSplits[1],
-            );
-          } else {
-            listQuery.populate(populationItemSplits[0]);
-          }
-        }),
-      );
-    }
-
-    const list = await listQuery;
-    return {
-      list,
-      page: safePage,
-      size: safeSize,
-      total,
-    };
-  }
-
-  async get(id: string, projection: string = null, population = null) {
-    const account = await this.accountModel.findById(id, projection);
-    return account;
+    private readonly accountModel: Model<AccountDocument>,) {
+    super(accountModel);
   }
 
   async updateRoles(id: string, roleIds: [string]) {

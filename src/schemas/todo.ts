@@ -8,7 +8,7 @@ export type TodoDocument = Todo & Document;
   timestamps: {},
 })
 export class Todo extends BaseDocument {
-  @Prop([SchemaTypes.String])
+  @Prop(SchemaTypes.String)
   name: string;
 }
 
