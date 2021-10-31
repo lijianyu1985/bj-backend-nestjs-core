@@ -1,11 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { BaseDocument } from './base/base.document';
+import { CommonSchema } from './common/common-schema';
 
 export type PermissionDocument = Permission & Document;
 
 @Schema({
-  timestamps: {},
+  ...CommonSchema,
 })
 export class Permission extends BaseDocument {
   @Prop()

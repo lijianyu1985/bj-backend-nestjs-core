@@ -26,7 +26,6 @@ export class BaseController<T> {
     type: FindQueryBaseDto,
   })
   async find(@Query() query: FindQueryBaseDto) {
-    console.log(query)
     return await this.commonService.find(query);
   }
 

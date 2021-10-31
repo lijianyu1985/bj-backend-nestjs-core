@@ -7,4 +7,6 @@ export class AccountChangeDto {
   name: string;
   @ApiProperty()
   roles: [string];
+  @ApiProperty()
+  avatarUrl: string;
 }

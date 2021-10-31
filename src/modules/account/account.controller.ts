@@ -39,6 +39,7 @@ export class AccountController extends BaseController<AccountDocument> {
       id: account.id,
       username: account.username,
       roles: account.roles,
+      avatarUrl: account.avatarUrl,
       name: account.name,
       phone: account.phone,
     };
@@ -90,6 +91,7 @@ export class AccountController extends BaseController<AccountDocument> {
     type: AccountProfileChangeDto,
   })
   async changeProfile(@Request() req, @Body() model) {
+    console.log(model)
     return await this.accountService.change({id: req.user.userId, ...model});
   }
 

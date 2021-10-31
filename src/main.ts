@@ -12,6 +12,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { FormatInterceptor } from './infrastructure/response/format.interceptor';
 import { BusinessErrorFilter } from './infrastructure/response/business.error';
 import { ValidationPipe } from '@nestjs/common';
+import { LoggerMiddleware } from './middleware/logger.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

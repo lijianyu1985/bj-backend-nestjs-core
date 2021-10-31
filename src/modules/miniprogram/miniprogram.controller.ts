@@ -43,7 +43,7 @@ export class MiniProgramController {
       session_key: req.user.wxSessionKey,
       openid: req.user.wxOpenId,
       token: await this.miniProgramService.login(req.user),
-      uid: req.user._id,
+      uid: req.user.id,
     };
   }
 }

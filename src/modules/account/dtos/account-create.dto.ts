@@ -7,4 +7,6 @@ export class AccountCreateDto {
   username: string;
   @ApiProperty()
   roles: [string];
+  @ApiProperty()
+  avatarUrl: string;
 }

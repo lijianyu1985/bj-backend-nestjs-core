@@ -47,6 +47,7 @@ export abstract class BaseService<T> {
   }: FindQueryBaseDto) {
     const queryObject = isJSON(query) ? JSON.parse(query) : {};
     queryObject.archived = { $in: [false, null, undefined] };
+   
     if (!projection) {
       return await populate(
         population,

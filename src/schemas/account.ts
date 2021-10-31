@@ -25,11 +25,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { BaseDocument } from './base/base.document';
+import { CommonSchema } from './common/common-schema';
 
 export type AccountDocument = Account & Document;
 
 @Schema({
-  timestamps: {},
+  ...CommonSchema,
 })
 export class Account extends BaseDocument {
   @Prop()
@@ -49,6 +50,9 @@ export class Account extends BaseDocument {
 
   @Prop()
   phone: string;
+
+  @Prop()
+  avatarUrl: string;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);
