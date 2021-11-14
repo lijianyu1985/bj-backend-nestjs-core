@@ -6,4 +6,10 @@ export class CreateTodoDto {
 
   @ApiProperty()
   name: string;
+
+  @ApiProperty()
+  subtitle: string;
+
+  @ApiProperty()
+  avatarUrl: string;
 }

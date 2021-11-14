@@ -11,6 +11,10 @@ export type TodoDocument = Todo & Document;
 export class Todo extends BaseDocument {
   @Prop(SchemaTypes.String)
   name: string;
+  @Prop(SchemaTypes.String)
+  subtitle: string;
+  @Prop(SchemaTypes.String)
+  avatarUrl: string;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);

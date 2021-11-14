@@ -6,4 +6,10 @@ export class UpdateTodoDto {
 
   @ApiProperty()
   name: string;
+
+  @ApiProperty()
+  subtitle: string;
+
+  @ApiProperty()
+  avatarUrl: string;
 }
